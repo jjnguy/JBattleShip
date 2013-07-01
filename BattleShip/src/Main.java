@@ -15,6 +15,13 @@ public class Main {
 		grid.guess(4, 7);
 		grid.guess(5, 5);
 		grid.print();
+		for (Ship s : grid.remainingShips()) {
+			System.out.println(s.length);
+		}
+		grid.guess(8, 1);
+		grid.guess(9, 1);
+		for (Ship s : grid.remainingShips()) {
+			System.out.println(s.length);
+		}
 	}
-
 }

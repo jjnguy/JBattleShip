@@ -1,38 +1,43 @@
-
 public class GridSpace {
 
 	private boolean guessed;
 	private boolean occupied;
-	
-	public GridSpace(){
+	private Ship occupant;
+
+	public GridSpace() {
 		guessed = false;
 		occupied = false;
 	}
-	
-	public boolean guess(){
+
+	public GuessResult guess() {
 		guessed = true;
-		return occupied;
-	}
-	
-	public void placeShip(){
-		if (occupied){
-			throw new RuntimeException("Cannot place ships on top of eachother.");
+		if (occupied) {
+			occupant.hit();
 		}
+		return new GuessResult(occupied, occupant);
+	}
+
+	public void placeShip(Ship ship) {
+		if (occupied) {
+			throw new RuntimeException(
+					"Cannot place ships on top of eachother.");
+		}
+		occupant = ship;
 		occupied = true;
 	}
-	
+
 	@Override
 	public String toString() {
-		if (!occupied && !guessed){
+		if (!occupied && !guessed) {
 			return " ";
 		}
-		if (!occupied && guessed){
+		if (!occupied && guessed) {
 			return "X";
 		}
-		if (occupied && !guessed){
+		if (occupied && !guessed) {
 			return "O";
 		}
-		if (occupied && guessed){
+		if (occupied && guessed) {
 			return "0";
 		}
 		throw new RuntimeException();

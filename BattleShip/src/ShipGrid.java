@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class ShipGrid {
 
 	private static final int GRID_SIZE = 10;
@@ -5,9 +8,12 @@ public class ShipGrid {
 	private GridSpace[][] grid;
 
 	private int shipSpacesRemaining;
+	
+	private List<Ship> ships;
 
 	public ShipGrid() {
 		grid = new GridSpace[10][10];
+		ships = new ArrayList<>();
 		for (int i = 0; i < grid.length; i++) {
 			for (int j = 0; j < grid[i].length; j++) {
 				grid[i][j] = new GridSpace();
@@ -15,18 +21,29 @@ public class ShipGrid {
 		}
 	}
 
-	public void placeShip(int x, int y, int length, ShipOrientation orientation) {
+	public void placeShip(int x, int y, Ship ship, ShipOrientation orientation) {
 		if (orientation == ShipOrientation.Vertical) {
-			for (int i = x; i < x + length; i++) {
-				grid[i][y].placeShip();
+			for (int i = x; i < x + ship.length; i++) {
+				grid[i][y].placeShip(ship);
 				shipSpacesRemaining++;
 			}
 		} else {
-			for (int i = y; i < y + length; i++) {
-				grid[x][i].placeShip();
+			for (int i = y; i < y + ship.length; i++) {
+				grid[x][i].placeShip(ship);
 				shipSpacesRemaining++;
 			}
 		}
+		ships.add(ship);
+	}
+	
+	public List<Ship> remainingShips(){
+		List<Ship> results = new ArrayList<>(ships.size());
+		for (Ship ship : ships) {
+			if (!ship.isSunk()){
+				results.add(ship);
+			}
+		}
+		return results;
 	}
 
 	public void print() {
@@ -52,22 +69,22 @@ public class ShipGrid {
 	}
 
 	public boolean guess(int x, int y) {
-		boolean result = grid[x][y].guess();
-		if (result) {
+		GuessResult result = grid[x][y].guess();
+		if (result.hit) {
 			shipSpacesRemaining--;
 		}
-		return result;
+		return result.hit;
 	}
 
-	public boolean gameOver() {
+	public boolean isGameOver() {
 		return shipSpacesRemaining == 0;
 	}
 
 	public static void randomlyPlaceShips(ShipGrid grid) {
-		grid.placeShip(0, 1, 5, ShipOrientation.Horizontal);
-		grid.placeShip(0, 0, 4, ShipOrientation.Vertical);
-		grid.placeShip(3, 1, 3, ShipOrientation.Vertical);
-		grid.placeShip(5, 5, 3, ShipOrientation.Vertical);
-		grid.placeShip(8, 1, 2, ShipOrientation.Vertical);
+		grid.placeShip(0, 1, Ship.of(5), ShipOrientation.Horizontal);
+		grid.placeShip(0, 0, Ship.of(4), ShipOrientation.Vertical);
+		grid.placeShip(3, 1, Ship.of(3), ShipOrientation.Vertical);
+		grid.placeShip(5, 5, Ship.of(3), ShipOrientation.Vertical);
+		grid.placeShip(8, 1, Ship.of(2), ShipOrientation.Vertical);
 	}
 }
