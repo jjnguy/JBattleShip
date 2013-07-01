@@ -1,3 +1,6 @@
+import logic.Ship;
+import logic.ShipGrid;
+
 public class Main {
 
 	/**
@@ -23,5 +26,6 @@ public class Main {
 		for (Ship s : grid.remainingShips()) {
 			System.out.println(s.length);
 		}
+		grid.print();
 	}
 }

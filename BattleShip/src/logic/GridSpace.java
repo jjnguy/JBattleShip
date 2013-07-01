@@ -1,3 +1,4 @@
+package logic;
 public class GridSpace {
 
 	private boolean guessed;
@@ -24,6 +25,21 @@ public class GridSpace {
 		}
 		occupant = ship;
 		occupied = true;
+	}
+	
+	public boolean isOccupied(){
+		return occupied;
+	}
+	
+	public boolean isGuessed(){
+		return guessed;
+	}
+	
+	public Ship getOccupant(){
+		if (!isOccupied()){
+			throw new RuntimeException("Cannot get occupant of unoccupied space");
+		}
+		return occupant;
 	}
 
 	@Override

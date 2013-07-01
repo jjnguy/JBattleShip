@@ -1,12 +1,15 @@
+package logic;
 public class Ship {
 
 	public final int length;
+	public final ShipOrientation orientation;
 
 	private int hitsRemaining;
 
-	public Ship(int length) {
+	public Ship(int length, ShipOrientation orientation) {
 		this.length = length;
 		hitsRemaining = length;
+		this.orientation = orientation;
 	}
 
 	public boolean hit() {
@@ -21,7 +24,10 @@ public class Ship {
 		return hitsRemaining == 0;
 	}
 
-	public static Ship of(int length){
-		return new Ship(length);
+	public static Ship vertical(int length){
+		return new Ship(length, ShipOrientation.Vertical);
+	}
+	public static Ship horizontal(int length){
+		return new Ship(length, ShipOrientation.Horizontal);
 	}
 }
