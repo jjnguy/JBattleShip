@@ -16,7 +16,7 @@ public class GridSpace {
 	public GridSpace() {
 		guessed = false;
 		occupied = false;
-		listeners = new ArrayList<>();
+		listeners = new ArrayList<SquareGuessListenters>();
 	}
 
 	public GuessResult guess() {

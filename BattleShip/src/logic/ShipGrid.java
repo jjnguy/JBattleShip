@@ -12,7 +12,7 @@ public class ShipGrid {
 
 	public ShipGrid() {
 		grid = new GridSpace[10][10];
-		ships = new ArrayList<>();
+		ships = new ArrayList<Ship>();
 		for (int i = 0; i < grid.length; i++) {
 			for (int j = 0; j < grid[i].length; j++) {
 				grid[i][j] = new GridSpace();
@@ -50,7 +50,7 @@ public class ShipGrid {
 	}
 	
 	public List<Ship> remainingShips(){
-		List<Ship> results = new ArrayList<>(ships.size());
+		List<Ship> results = new ArrayList<Ship>(ships.size());
 		for (Ship ship : ships) {
 			if (!ship.isSunk()){
 				results.add(ship);
