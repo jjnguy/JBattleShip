@@ -8,8 +8,6 @@ public class ShipGrid {
 
 	private GridSpace[][] grid;
 
-	private int shipSpacesRemaining;
-	
 	private List<Ship> ships;
 
 	public ShipGrid() {
@@ -22,16 +20,22 @@ public class ShipGrid {
 		}
 	}
 
-	public void placeShip(int x, int y, Ship ship, ShipOrientation orientation) {
-		if (orientation == ShipOrientation.Vertical) {
+	public int getWidth(){
+		return GRID_SIZE;
+	}
+	
+	public GridSpace get(int x, int y){
+		return grid[x][y];
+	}
+	
+	public void placeShip(int x, int y, Ship ship) {
+		if (ship.orientation == ShipOrientation.Vertical) {
 			for (int i = x; i < x + ship.length; i++) {
 				grid[i][y].placeShip(ship);
-				shipSpacesRemaining++;
 			}
 		} else {
 			for (int i = y; i < y + ship.length; i++) {
 				grid[x][i].placeShip(ship);
-				shipSpacesRemaining++;
 			}
 		}
 		ships.add(ship);
@@ -69,23 +73,16 @@ public class ShipGrid {
 		System.out.println();
 	}
 
-	public boolean guess(int x, int y) {
-		GuessResult result = grid[x][y].guess();
-		if (result.hit) {
-			shipSpacesRemaining--;
-		}
-		return result.hit;
-	}
-
 	public boolean isGameOver() {
-		return shipSpacesRemaining == 0;
+		return remainingShips().size() == 0;
 	}
 
-	public static void randomlyPlaceShips(ShipGrid grid) {
-		grid.placeShip(0, 1, Ship.of(5), ShipOrientation.Horizontal);
-		grid.placeShip(0, 0, Ship.of(4), ShipOrientation.Vertical);
-		grid.placeShip(3, 1, Ship.of(3), ShipOrientation.Vertical);
-		grid.placeShip(5, 5, Ship.of(3), ShipOrientation.Vertical);
-		grid.placeShip(8, 1, Ship.of(2), ShipOrientation.Vertical);
+	public static ShipGrid randomlyPlaceShips(ShipGrid grid) {
+		grid.placeShip(0, 1, Ship.horizontal(5));
+		grid.placeShip(0, 0, Ship.vertical(4));
+		grid.placeShip(3, 1, Ship.vertical(3));
+		grid.placeShip(5, 5, Ship.vertical(3));
+		grid.placeShip(8, 1, Ship.vertical(2));
+		return grid;
 	}
 }
