@@ -7,7 +7,7 @@ public class GridSpace {
 
 	private boolean guessed;
 	private boolean occupied;
-	private Ship occupant;
+	private ShipPlacement occupant;
 	
 	private double occupiedProbability;
 	
@@ -22,11 +22,11 @@ public class GridSpace {
 	public GuessResult guess() {
 		guessed = true;
 		if (occupied) {
-			occupant.hit();
+			occupant.ship.hit();
 		}
-		GuessResult result = new GuessResult(occupied, occupant);
+		GuessResult result = new GuessResult(occupied, occupant.ship);
 		for (SquareGuessListenters listener : listeners) {
-			listener.onGuess(result);
+			listener.onGuess(this, result);
 		}
 		return result;
 	}
@@ -35,7 +35,7 @@ public class GridSpace {
 		listeners.add(listener);
 	}
 
-	public void placeShip(Ship ship) {
+	public void placeShip(ShipPlacement ship) {
 		if (occupied) {
 			throw new RuntimeException(
 					"Cannot place ships on top of eachother.");
@@ -52,11 +52,19 @@ public class GridSpace {
 		return guessed;
 	}
 	
-	public Ship getOccupant(){
+	public ShipPlacement getOccupant(){
 		if (!isOccupied()){
 			throw new RuntimeException("Cannot get occupant of unoccupied space");
 		}
 		return occupant;
+	}
+	
+	public double getOccupiedProbability(){
+	    return occupiedProbability;
+	}
+	
+	public void setOccupiedProbability(double probability){
+	    occupiedProbability = probability;
 	}
 
 	@Override

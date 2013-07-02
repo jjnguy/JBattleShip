@@ -1,8 +1,9 @@
 import gui.BattleShipFrame;
-import gui.ViewMode;
+import logic.GridSpace;
 import logic.GuessResult;
 import logic.ShipGrid;
 import logic.SquareGuessListenters;
+import logic.ViewMode;
 
 public class Main {
 
@@ -13,7 +14,7 @@ public class Main {
 		
 		grid.addListenerToAllSquares(new SquareGuessListenters() {
 			@Override
-			public void onGuess(GuessResult result) {
+			public void onGuess(GridSpace space, GuessResult result) {
 				guess.repaint();
 				master.repaint();
 			}
