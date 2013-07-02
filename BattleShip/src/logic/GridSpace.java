@@ -9,6 +9,8 @@ public class GridSpace {
 	private boolean occupied;
 	private Ship occupant;
 	
+	private double occupiedProbability;
+	
 	private List<SquareGuessListenters> listeners;
 
 	public GridSpace() {
