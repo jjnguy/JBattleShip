@@ -1,13 +1,20 @@
 package logic;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class GridSpace {
 
 	private boolean guessed;
 	private boolean occupied;
 	private Ship occupant;
+	
+	private List<SquareGuessListenters> listeners;
 
 	public GridSpace() {
 		guessed = false;
 		occupied = false;
+		listeners = new ArrayList<>();
 	}
 
 	public GuessResult guess() {
@@ -15,7 +22,15 @@ public class GridSpace {
 		if (occupied) {
 			occupant.hit();
 		}
-		return new GuessResult(occupied, occupant);
+		GuessResult result = new GuessResult(occupied, occupant);
+		for (SquareGuessListenters listener : listeners) {
+			listener.onGuess(result);
+		}
+		return result;
+	}
+	
+	public void addListener(SquareGuessListenters listener){
+		listeners.add(listener);
 	}
 
 	public void placeShip(Ship ship) {

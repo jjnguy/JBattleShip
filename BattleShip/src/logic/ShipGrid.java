@@ -7,7 +7,7 @@ public class ShipGrid {
 	private static final int GRID_SIZE = 10;
 
 	private GridSpace[][] grid;
-
+	
 	private List<Ship> ships;
 
 	public ShipGrid() {
@@ -39,6 +39,14 @@ public class ShipGrid {
 			}
 		}
 		ships.add(ship);
+	}
+	
+	public void addListenerToAllSquares(SquareGuessListenters listener){
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[i].length; j++) {
+				grid[i][j].addListener(listener);
+			}
+		}
 	}
 	
 	public List<Ship> remainingShips(){
